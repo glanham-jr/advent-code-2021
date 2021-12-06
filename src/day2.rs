@@ -25,6 +25,7 @@ fn parse_command(cmd: &str) -> Command {
 struct PilotPosition {
     pub depth: i32,
     pub position: i32,
+    pub aim: i32,
 }
 impl PilotPosition {
     pub fn mult(&self) -> i32 {
@@ -63,15 +64,34 @@ pub fn p1_pilot() -> i32 {
     return read_file()
         .lines()
         .map(parse_line)
-        .fold(PilotPosition { depth: 0, position: 0  }, |mut acc, n| {
+        .fold(PilotPosition { depth: 0, position: 0, aim: 0  }, |mut acc, n| {
             if n.command == Command::Forward {
                 acc.position += n.value;
             }
             else if n.command == Command::Up {
                 acc.depth -= n.value;
             }
-            else {
+            else { // Command::Down
                 acc.depth += n.value;
+            }
+            return acc;
+        }).mult();
+}
+
+pub fn p2_pilot() -> i32 {
+    return read_file()
+        .lines()
+        .map(parse_line)
+        .fold(PilotPosition { depth: 0, position: 0, aim: 0  }, |mut acc, n| {
+            if n.command == Command::Forward {
+                acc.position += n.value;
+                acc.depth += n.value * acc.aim;
+            }
+            else if n.command == Command::Up {
+                acc.aim -= n.value;
+            }
+            else { // Command::Down
+                acc.aim += n.value;
             }
             return acc;
         }).mult();
