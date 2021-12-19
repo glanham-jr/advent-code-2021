@@ -96,10 +96,6 @@ impl Diagnostic {
         let high_valid: bool = count >= (half_total as u32);
         let take_high: bool = if is_upper { high_valid } else { !high_valid };
         // 111110
-        let fstrings: Vec<String> = self.values.iter().map(|x| format!("{:012b}", x)).collect();
-        if !is_upper {
-            println!("Count {:?} Bit {:?}, TakeHigh: {:?}, HalfLen: {:?}, values: {:?}", count, self.bits_end - 1, take_high, half_total, fstrings);
-        }
         if take_high {
             return self.values
                        .iter()
@@ -119,7 +115,6 @@ impl Diagnostic {
     fn _life_support(&self, high_low_tup: (Vec<u16>, Vec<u16>), index: usize) -> (Vec<u16>, Vec<u16>) {
         let high_len = high_low_tup.0.len();
         let low_len = high_low_tup.1.len();
-        // println!("Index: {:?}, High: {:?}, Low: {:?}", index, high_len, low_len);
 
         // exit early if both conditions were met
         if high_low_tup.0.len() <= 1 && high_low_tup.1.len() <= 1 {
@@ -152,8 +147,6 @@ impl Diagnostic {
     pub fn life_support(&self) -> u32 {
         // We needed to do a first pass to calculate the number
         // of bits in the first number, so the previous algo is still valid
-        println!("BitCount: {:?}", self.bit_count);
-
         let (div, rem) = div_remain(self.values.len(), 2);
         let half_total: usize = div + rem;
         let high_valid: bool = self.bit_count[self.bits_end - 1] >= (half_total as u32);
@@ -163,7 +156,6 @@ impl Diagnostic {
 
         // we can go from 2*O(N) to O(N) by initialize vlaues outside of fn inner
         // Since both sets start with the same vector
-        println!("Bit {:?}: {:?}", self.bits_end - 1, high_valid);
         self.values.iter().for_each(|v| {
             if v & bit_oper == bit_oper && high_valid {
                 high.push(*v);
@@ -177,8 +169,6 @@ impl Diagnostic {
 
         assert!(high_fin.len() == 1);
         assert!(low_fin.len() == 1);
-        println!("High: {:012b}, Low: {:012b}", high_fin[0], low_fin[0]);
-        println!("High: {:?}, Low: {:?}", high_fin[0], low_fin[0]);
         // correct: 2775870
         return (high_fin[0] as u32) * (low_fin[0] as u32);
     }
