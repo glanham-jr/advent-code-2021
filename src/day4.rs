@@ -143,7 +143,6 @@ fn read_bingo() -> Bingo {
 }
 
 fn _bingo(bingo: &mut Bingo, win_break: usize) -> (BingoGame, u16) {
-    println!("win_break: {}", win_break);
     let mut win_counter: usize = 0;
     for mv in bingo.moves.iter() {
         for g in bingo.games.iter_mut().filter(|g| !g.won) {
@@ -157,7 +156,6 @@ fn _bingo(bingo: &mut Bingo, win_break: usize) -> (BingoGame, u16) {
                     if g.row_counts[p.row] == 5 {
                         win_counter += 1;
                         (*g).won = true;
-                        println!("wincnt: {}", win_counter);
                         if win_counter >= win_break {
                             return (Clone::clone(g), *mv);
                         }
@@ -165,7 +163,6 @@ fn _bingo(bingo: &mut Bingo, win_break: usize) -> (BingoGame, u16) {
                     else if g.column_counts[p.column]  == 5 {
                         win_counter += 1;
                         (*g).won = true;
-                        println!("wincnt: {}", win_counter);
                         if win_counter >= win_break {
                             return (Clone::clone(g), *mv);
                         }
