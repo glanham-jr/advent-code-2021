@@ -4,6 +4,7 @@ mod day3;
 mod day4;
 mod day5;
 mod day6;
+mod day7;
 
 // #[tokio::main]
 // async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -26,4 +27,7 @@ fn main() {
 
     println!("day6-p1: {:#?}", day6::p1_lanternfish());
     println!("day6-p2: {:#?}", day6::p2_lanternfish());
+
+    println!("day7-p1: {:#?}", day7::p1_whale());
+    println!("day7-p2: {:#?}", day7::p2_whale());
 }
